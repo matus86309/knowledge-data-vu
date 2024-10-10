@@ -1,0 +1,89 @@
+@prefix dota2: <http://example/dota2/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+dota2:Banned rdfs:label "Banned" ;
+    rdfs:domain dota2:Player ;
+    rdfs:range dota2:BannedHero .
+
+dota2:Picked rdfs:label "Picked" ;
+    rdfs:domain dota2:Player ;
+    rdfs:range dota2:PickedHero .
+
+dota2:PlaysAgainst rdfs:label "Plays against" ;
+    rdfs:domain dota2:Player ;
+    rdfs:range dota2:Player .
+
+dota2:PlaysWith rdfs:label "Plays with" ;
+    rdfs:domain dota2:Player ;
+    rdfs:range dota2:Player .
+
+dota2:AgilityHero rdfs:label "Agility hero" ;
+    rdfs:subClassOf dota2:Hero .
+
+dota2:Axe a dota2:StrengthHero ;
+    rdfs:label "Axe" .
+
+dota2:BannedHero rdfs:label "Banned hero" ;
+    rdfs:subClassOf dota2:Hero .
+
+dota2:Bristleback a dota2:StrengthHero ;
+    rdfs:label "Bristleback" .
+
+dota2:Juggernaut a dota2:AgilityHero ;
+    rdfs:label "Juggernaut" .
+
+dota2:Lina a dota2:IntelligenceHero ;
+    rdfs:label "Lina" .
+
+dota2:Lion a dota2:IntelligenceHero ;
+    rdfs:label "Lion" .
+
+dota2:PhantomLancer a dota2:IntelligenceHero ;
+    rdfs:label "Phantom lancer" .
+
+dota2:PickedHero rdfs:label "Picked hero" ;
+    rdfs:subClassOf dota2:Hero .
+
+dota2:SandKing a dota2:UniversalHero ;
+    rdfs:label "Sand king" .
+
+dota2:WindRanger a dota2:UniversalHero ;
+    rdfs:label "Wind ranger" .
+
+dota2:StrengthHero rdfs:label "Strength hero" ;
+    rdfs:subClassOf dota2:Hero .
+
+dota2:UniversalHero rdfs:label "Universal hero" ;
+    rdfs:subClassOf dota2:Hero .
+
+dota2:IntelligenceHero rdfs:label "Intelligence hero" ;
+    rdfs:subClassOf dota2:Hero .
+
+dota2:Player1 rdfs:label "Armin" ;
+    dota2:Banned dota2:Lion ;
+    dota2:Picked dota2:Axe ;
+    dota2:PlaysAgainst dota2:Player3,
+        dota2:Player4 ;
+    dota2:PlaysWith dota2:Player2 .
+
+dota2:Player2 rdfs:label "Benny" ;
+    dota2:Banned dota2:WindRanger ;
+    dota2:Picked dota2:Juggernaut ;
+    dota2:PlaysAgainst dota2:Player3,
+        dota2:Player4 ;
+    dota2:PlaysWith dota2:Player1 .
+
+dota2:Player3 rdfs:label "Christa" ;
+    dota2:Banned dota2:Lina ;
+    dota2:Picked dota2:SandKing ;
+    dota2:PlaysAgainst dota2:Player1,
+        dota2:Player2 ;
+    dota2:PlaysWith dota2:Player4 .
+
+dota2:Player4 rdfs:label "Daniel" ;
+    dota2:Banned dota2:Bristleback ;
+    dota2:Picked dota2:PhantomLancer ;
+    dota2:PlaysAgainst dota2:Player1,
+        dota2:Player2 ;
+    dota2:PlaysWith dota2:Player3 .
+
