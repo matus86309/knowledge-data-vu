@@ -1,0 +1,265 @@
+@prefix : <http://example/wine/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wine: <http://example/wine/> .
+@base <http://example/wine/> .
+
+<http://example/wine/> rdf:type owl:Ontology ;
+                        <http://purl.org/dc/elements/1.1/creator> "Matúš Hába"@en ;
+                        <http://purl.org/dc/elements/1.1/description> "This ontology has been created for wine enthusiast or analysts, that would like to capture their knowledge about the wine production. It should only serve as a framework, with some very basic examples to make it easier for anyone to start with building such a knowledge base."@en .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/elements/1.1/creator
+<http://purl.org/dc/elements/1.1/creator> rdf:type owl:AnnotationProperty ;
+                                          rdfs:subPropertyOf rdfs:label .
+
+
+###  http://purl.org/dc/elements/1.1/description
+<http://purl.org/dc/elements/1.1/description> rdf:type owl:AnnotationProperty ;
+                                              rdfs:subPropertyOf rdfs:label .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example/wine/harvestMethod
+wine:harvestMethod rdf:type owl:ObjectProperty ;
+                   rdfs:domain wine:Wine ;
+                   rdfs:range wine:Harvest .
+
+
+###  http://example/wine/hasColor
+wine:hasColor rdf:type owl:ObjectProperty ,
+                       owl:IrreflexiveProperty ;
+              rdfs:domain wine:Wine ;
+              rdfs:range wine:WineColor .
+
+
+###  http://example/wine/producedBy
+wine:producedBy rdf:type owl:ObjectProperty ;
+                owl:inverseOf wine:produces ;
+                rdfs:domain wine:Wine ;
+                rdfs:range wine:Producer .
+
+
+###  http://example/wine/producedIn
+wine:producedIn rdf:type owl:ObjectProperty ;
+                rdfs:domain wine:Wine ;
+                rdfs:range wine:Region .
+
+
+###  http://example/wine/produces
+wine:produces rdf:type owl:ObjectProperty ;
+              rdfs:domain wine:Producer ;
+              rdfs:range wine:Wine .
+
+
+###  http://example/wine/residualSugar
+wine:residualSugar rdf:type owl:ObjectProperty ;
+                   rdfs:domain wine:Wine ;
+                   rdfs:range wine:ResidualSugarLevel .
+
+
+###  http://example/wine/tastesLike
+wine:tastesLike rdf:type owl:ObjectProperty ,
+                         owl:SymmetricProperty ,
+                         owl:TransitiveProperty ;
+                rdfs:domain wine:Wine ;
+                rdfs:range wine:Wine .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example/wine/harvestYear
+wine:harvestYear rdf:type owl:DatatypeProperty ;
+                 rdfs:domain wine:Wine ;
+                 rdfs:range xsd:positiveInteger .
+
+
+###  http://example/wine/pricePerBottle
+wine:pricePerBottle rdf:type owl:DatatypeProperty ;
+                    rdfs:domain wine:Wine ;
+                    rdfs:range xsd:decimal .
+
+
+###  http://example/wine/sparkling
+wine:sparkling rdf:type owl:DatatypeProperty ;
+               rdfs:domain wine:Wine ;
+               rdfs:range xsd:boolean .
+
+
+###  http://example/wine/#alcoholContent
+<http://example/wine/#alcoholContent> rdf:type owl:DatatypeProperty ;
+                                      rdfs:domain wine:Wine ;
+                                      rdfs:range xsd:decimal .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example/wine/Harvest
+wine:Harvest rdf:type owl:Class ;
+             rdfs:subClassOf wine:WineDescriptor .
+
+
+###  http://example/wine/Producer
+wine:Producer rdf:type owl:Class ;
+              rdfs:subClassOf wine:WineDescriptor .
+
+
+###  http://example/wine/RedWine
+wine:RedWine rdf:type owl:Class ;
+             owl:equivalentClass [ owl:intersectionOf ( wine:Wine
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty wine:hasColor ;
+                                                          owl:hasValue wine:Red
+                                                        ]
+                                                      ) ;
+                                   rdf:type owl:Class
+                                 ] ;
+             rdfs:subClassOf wine:Wine .
+
+
+###  http://example/wine/Region
+wine:Region rdf:type owl:Class ;
+            rdfs:subClassOf wine:WineDescriptor .
+
+
+###  http://example/wine/ResidualSugarLevel
+wine:ResidualSugarLevel rdf:type owl:Class ;
+                        rdfs:subClassOf wine:WineDescriptor .
+
+
+###  http://example/wine/WhiteWine
+wine:WhiteWine rdf:type owl:Class ;
+               owl:equivalentClass [ owl:intersectionOf ( wine:Wine
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty wine:hasColor ;
+                                                            owl:hasValue <http://example/wine//White>
+                                                          ]
+                                                        ) ;
+                                     rdf:type owl:Class
+                                   ] ;
+               rdfs:subClassOf wine:Wine .
+
+
+###  http://example/wine/Wine
+wine:Wine rdf:type owl:Class ;
+          owl:disjointWith wine:WineDescriptor .
+
+
+###  http://example/wine/WineColor
+wine:WineColor rdf:type owl:Class ;
+               rdfs:subClassOf wine:WineDescriptor .
+
+
+###  http://example/wine/WineDescriptor
+wine:WineDescriptor rdf:type owl:Class .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://example/wine/Champagne
+wine:Champagne rdf:type owl:NamedIndividual ,
+                        wine:Region .
+
+
+###  http://example/wine/CoteauxChampenoisRouge
+wine:CoteauxChampenoisRouge rdf:type owl:NamedIndividual ,
+                                     wine:Wine ;
+                            wine:harvestMethod wine:StandardHarvest ;
+                            wine:hasColor wine:Red ;
+                            wine:producedBy wine:ThibaudBrocard ;
+                            wine:producedIn wine:Champagne ;
+                            wine:residualSugar wine:Dry ;
+                            wine:harvestYear "2021"^^xsd:positiveInteger ;
+                            wine:pricePerBottle 62.50 ;
+                            wine:sparkling "false"^^xsd:boolean ;
+                            <http://example/wine/#alcoholContent> 11.5 .
+
+
+###  http://example/wine/Dry
+wine:Dry rdf:type owl:NamedIndividual ,
+                  wine:ResidualSugarLevel .
+
+
+###  http://example/wine/Montefioralle
+wine:Montefioralle rdf:type owl:NamedIndividual ;
+                   wine:produces wine:VinSantoDelChianti .
+
+
+###  http://example/wine/OrnellaiaBolgheriSuperioreToscana
+wine:OrnellaiaBolgheriSuperioreToscana rdf:type owl:NamedIndividual ,
+                                                wine:RedWine ;
+                                       wine:hasColor wine:Red ;
+                                       wine:producedIn wine:Tuscany ;
+                                       wine:tastesLike wine:CoteauxChampenoisRouge ;
+                                       wine:pricePerBottle 260.00 ;
+                                       wine:sparkling "false"^^xsd:boolean .
+
+
+###  http://example/wine/Red
+wine:Red rdf:type owl:NamedIndividual ,
+                  wine:WineColor .
+
+
+###  http://example/wine/SauvignonBlanc
+wine:SauvignonBlanc rdf:type owl:NamedIndividual ,
+                             wine:WhiteWine ;
+                    wine:harvestMethod <http://example/wine//LateHarvest> ;
+                    wine:hasColor <http://example/wine//White> ;
+                    wine:harvestYear 2019 ;
+                    wine:sparkling "false"^^xsd:boolean .
+
+
+###  http://example/wine/StandardHarvest
+wine:StandardHarvest rdf:type owl:NamedIndividual ,
+                              wine:Harvest .
+
+
+###  http://example/wine/Sweet
+wine:Sweet rdf:type owl:NamedIndividual .
+
+
+###  http://example/wine/ThibaudBrocard
+wine:ThibaudBrocard rdf:type owl:NamedIndividual ,
+                             wine:Producer .
+
+
+###  http://example/wine/Tuscany
+wine:Tuscany rdf:type owl:NamedIndividual .
+
+
+###  http://example/wine/VinSantoDelChianti
+wine:VinSantoDelChianti rdf:type owl:NamedIndividual ;
+                        wine:harvestMethod <http://example/wine//LateHarvest> ;
+                        wine:hasColor <http://example/wine//White> ;
+                        wine:producedIn wine:Tuscany ;
+                        wine:residualSugar wine:Sweet ;
+                        wine:harvestYear "2016"^^xsd:positiveInteger ;
+                        wine:pricePerBottle 56.00 ;
+                        wine:sparkling "true"^^xsd:boolean ;
+                        <http://example/wine/#alcoholContent> 14.5 .
+
+
+###  http://example/wine//LateHarvest
+<http://example/wine//LateHarvest> rdf:type owl:NamedIndividual .
+
+
+###  http://example/wine//White
+<http://example/wine//White> rdf:type owl:NamedIndividual .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
